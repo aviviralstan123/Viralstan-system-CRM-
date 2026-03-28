@@ -120,14 +120,14 @@ export const clients: Client[] = [
 ];
 
 export const services: Service[] = [
-  { id: "1", name: "SEO Optimization", description: "Full SEO audit and optimization", price: 2500, category: "SEO", status: "active", clients: 12 },
-  { id: "2", name: "Social Media Management", description: "Complete social media strategy and management", price: 3000, category: "Social", status: "active", clients: 18 },
-  { id: "3", name: "PPC Campaigns", description: "Google & Meta paid advertising", price: 4500, category: "Advertising", status: "active", clients: 8 },
-  { id: "4", name: "Content Marketing", description: "Blog posts, whitepapers, and content strategy", price: 2000, category: "Content", status: "active", clients: 15 },
-  { id: "5", name: "Web Development", description: "Custom website design and development", price: 8000, category: "Development", status: "active", clients: 6 },
-  { id: "6", name: "Email Marketing", description: "Email campaigns and automation", price: 1500, category: "Email", status: "active", clients: 20 },
-  { id: "7", name: "Brand Strategy", description: "Complete brand identity and strategy", price: 5000, category: "Branding", status: "inactive", clients: 3 },
-  { id: "8", name: "Video Production", description: "Promotional videos and reels", price: 3500, category: "Content", status: "active", clients: 9 },
+  { id: "1", name: "SEO Optimization", description: "Full SEO audit and optimization", price: 2500, category: "SEO", status: "active", clients: 12, metaTitle: "SEO Optimization | Viralstan", metaDescription: "Professional SEO services" },
+  { id: "2", name: "Social Media Management", description: "Complete social media strategy and management", price: 3000, category: "Social", status: "active", clients: 18, metaTitle: "Social Media Management | Viralstan", metaDescription: "Social media strategy" },
+  { id: "3", name: "PPC Campaigns", description: "Google & Meta paid advertising", price: 4500, category: "Advertising", status: "active", clients: 8, metaTitle: "PPC Campaigns | Viralstan", metaDescription: "Paid advertising services" },
+  { id: "4", name: "Content Marketing", description: "Blog posts, whitepapers, and content strategy", price: 2000, category: "Content", status: "active", clients: 15, metaTitle: "Content Marketing | Viralstan", metaDescription: "Content strategy services" },
+  { id: "5", name: "Web Development", description: "Custom website design and development", price: 8000, category: "Development", status: "active", clients: 6, metaTitle: "Web Development | Viralstan", metaDescription: "Web development services" },
+  { id: "6", name: "Email Marketing", description: "Email campaigns and automation", price: 1500, category: "Email", status: "active", clients: 20, metaTitle: "Email Marketing | Viralstan", metaDescription: "Email marketing services" },
+  { id: "7", name: "Brand Strategy", description: "Complete brand identity and strategy", price: 5000, category: "Branding", status: "inactive", clients: 3, metaTitle: "Brand Strategy | Viralstan", metaDescription: "Brand identity services" },
+  { id: "8", name: "Video Production", description: "Promotional videos and reels", price: 3500, category: "Content", status: "active", clients: 9, metaTitle: "Video Production | Viralstan", metaDescription: "Video production services" },
 ];
 
 export const leads: Lead[] = [
