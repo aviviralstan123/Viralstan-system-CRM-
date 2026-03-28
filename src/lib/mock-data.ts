@@ -37,11 +37,25 @@ export interface Blog {
   id: string;
   title: string;
   excerpt: string;
+  description: string;
   author: string;
   status: "draft" | "published" | "archived";
   category: string;
   views: number;
+  coverImage?: string;
+  metaTitle: string;
+  metaDescription: string;
+  wordCount: number;
   publishedAt: string;
+}
+
+export interface Industry {
+  id: string;
+  serviceId: string;
+  title: string;
+  content: string;
+  metaTitle: string;
+  metaDescription: string;
 }
 
 export interface Invoice {
