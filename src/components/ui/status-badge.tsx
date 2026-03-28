@@ -3,11 +3,11 @@ import { cn } from "@/lib/utils";
 type StatusVariant = "success" | "warning" | "danger" | "info" | "neutral";
 
 const variantStyles: Record<StatusVariant, string> = {
-  success: "bg-success/10 text-success border-success/20",
-  warning: "bg-warning/10 text-warning border-warning/20",
-  danger: "bg-destructive/10 text-destructive border-destructive/20",
-  info: "bg-info/10 text-info border-info/20",
-  neutral: "bg-muted text-muted-foreground border-border",
+  success: "bg-green-500/10 text-green-600 border-green-500/20 dark:text-green-400",
+  warning: "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:text-amber-400",
+  danger: "bg-red-500/10 text-red-600 border-red-500/20 dark:text-red-400",
+  info: "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400",
+  neutral: "bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400",
 };
 
 interface StatusBadgeProps {
@@ -20,11 +20,19 @@ export function StatusBadge({ label, variant, className }: StatusBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium",
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider",
         variantStyles[variant],
         className
       )}
     >
+      <span className={cn(
+        "h-1.5 w-1.5 rounded-full",
+        variant === "success" && "bg-green-600 dark:bg-green-400",
+        variant === "warning" && "bg-amber-600 dark:bg-amber-400",
+        variant === "danger" && "bg-red-600 dark:bg-red-400",
+        variant === "info" && "bg-blue-600 dark:bg-blue-400",
+        variant === "neutral" && "bg-gray-600 dark:bg-gray-400"
+      )} />
       {label}
     </span>
   );

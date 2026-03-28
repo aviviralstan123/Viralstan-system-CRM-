@@ -38,6 +38,7 @@ export interface Lead {
 export interface Blog {
   id: string;
   title: string;
+  slug: string;
   excerpt: string;
   description: string;
   author: string;
@@ -141,9 +142,9 @@ export const leads: Lead[] = [
 ];
 
 export const blogs: Blog[] = [
-  { id: "1", title: "10 SEO Strategies to Grow in 2026", excerpt: "Stay ahead with these emerging SEO strategies...", description: "<p>SEO is evolving. Here are top strategies...</p>", author: "Sarah Chen", status: "published", category: "SEO", views: 2340, wordCount: 7000, coverImage: "", metaTitle: "Top SEO Strategies 2026 | Viralstan", metaDescription: "Discover the top SEO strategies for 2026", publishedAt: "2024-07-15" },
-  { id: "2", title: "How to Run Facebook Ads That Convert", excerpt: "Learn how to measure and maximize your social ROI...", description: "<p>Facebook ads require a strategic approach...</p>", author: "Alex Thompson", status: "published", category: "Ads", views: 1890, wordCount: 4000, coverImage: "", metaTitle: "Facebook Ads Guide | Viralstan", metaDescription: "Master Facebook advertising", publishedAt: "2024-07-10" },
-  { id: "3", title: "Tredix", excerpt: "A comprehensive comparison of paid and organic strategies...", description: "<p>Tredix case study and analysis...</p>", author: "Marcus Rivera", status: "draft", category: "", views: 0, wordCount: 1000, coverImage: "", metaTitle: "", metaDescription: "", publishedAt: "" },
+  { id: "1", title: "10 SEO Strategies to Grow in 2026", slug: "10-seo-strategies-2026", excerpt: "Stay ahead with these emerging SEO strategies...", description: "<p>SEO is evolving. Here are top strategies...</p>", author: "Sarah Chen", status: "published", category: "SEO", views: 2340, wordCount: 7000, coverImage: "", metaTitle: "Top SEO Strategies 2026 | Viralstan", metaDescription: "Discover the top SEO strategies for 2026", publishedAt: "2024-07-15" },
+  { id: "2", title: "How to Run Facebook Ads That Convert", slug: "facebook-ads-guide", excerpt: "Learn how to measure and maximize your social ROI...", description: "<p>Facebook ads require a strategic approach...</p>", author: "Alex Thompson", status: "published", category: "Ads", views: 1890, wordCount: 4000, coverImage: "", metaTitle: "Facebook Ads Guide | Viralstan", metaDescription: "Master Facebook advertising", publishedAt: "2024-07-10" },
+  { id: "3", title: "Tredix", slug: "tredix-case-study", excerpt: "A comprehensive comparison of paid and organic strategies...", description: "<p>Tredix case study and analysis...</p>", author: "Marcus Rivera", status: "draft", category: "", views: 0, wordCount: 1000, coverImage: "", metaTitle: "", metaDescription: "", publishedAt: "" },
 ];
 
 export const industries: Industry[] = [];
