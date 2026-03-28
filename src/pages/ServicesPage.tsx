@@ -9,12 +9,12 @@ import { services as initialServices, Service } from "@/lib/mock-data";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-const emptyService = {
+const emptyService: Omit<Service, "id"> = {
   name: "",
   description: "",
   price: 0,
   category: "",
-  status: "active" as const,
+  status: "active",
   clients: 0,
   metaTitle: "",
   metaDescription: "",
