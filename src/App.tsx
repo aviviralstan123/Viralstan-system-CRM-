@@ -14,6 +14,7 @@ import AnalyticsPage from "@/pages/AnalyticsPage";
 import InvoicesPage from "@/pages/InvoicesPage";
 import PaymentsPage from "@/pages/PaymentsPage";
 import SettingsPage from "@/pages/SettingsPage";
+import IndustriesPage from "@/pages/IndustriesPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
