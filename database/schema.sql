@@ -1,8 +1,8 @@
 -- Viralstan CRM Production Schema (MySQL)
 -- Created by Senior Architect
 
-CREATE DATABASE IF NOT EXISTS viralstan_crm;
-USE viralstan_crm;
+-- CREATE DATABASE IF NOT EXISTS viralstan_crm;
+-- USE viralstan_crm;
 
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS reviews, payments, invoice_items, invoices, blogs, industries, services, leads, clients, users;
