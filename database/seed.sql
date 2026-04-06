@@ -1,4 +1,3 @@
-USE viralstan_crm;
 
 -- Dummy Users (Password: password123)
 -- bcrypt hash of 'password123'
@@ -35,3 +34,6 @@ INSERT INTO invoice_items (invoice_id, description, quantity, unit_price, total_
 -- Dummy Payments
 INSERT INTO payments (invoice_id, amount, payment_method, transaction_id, status) VALUES 
 (1, 2500.00, 'online', 'TXN_123456', 'completed');
+
+
+-- hello
