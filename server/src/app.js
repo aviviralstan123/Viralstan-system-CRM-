@@ -18,6 +18,9 @@ const settingsRoutes = require('./routes/settingsRoutes');
 
 const app = express();
 
+// Trust proxy for express-rate-limit (Railway/Render)
+app.set('trust proxy', 1);
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
