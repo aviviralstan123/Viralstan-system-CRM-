@@ -62,16 +62,12 @@ const forgotPassword = async (email) => {
 
   const resetLink = `${frontendUrl || 'https://viralstan-system-crm-test.vercel.app'}/reset-password?token=${resetToken}`;
   
-  try {
-    await emailService.sendPasswordResetEmail(user.email, user.name, resetLink);
-  } catch (error) {
-    // Cleanup if email fails
-    await pool.query(
-        'UPDATE users SET reset_password_token = NULL, reset_password_expires = NULL WHERE id = ?',
-        [user.id]
-    );
-    throw { statusCode: 500, message: 'Error sending email. Please try again later.' };
-  }
+  // Send email in background to keep response fast
+  emailService.sendPasswordResetEmail(user.email, user.name, resetLink)
+    .catch(async (error) => {
+      logger.error(`Background email failed for ${user.email}: ${error.message}`);
+      // Optional: Logic to handle persistent failure if needed
+    });
 
   return { message: 'Password reset link sent to your email' };
 };

@@ -10,31 +10,47 @@ class EmailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-            port: process.env.EMAIL_PORT || 587,
-            secure: false, // true for 465, false for other ports
+            port: parseInt(process.env.EMAIL_PORT) || 587,
+            secure: process.env.EMAIL_PORT == 465, // true for 465, false for other ports
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         });
+    }
+
+    async verifyConnection() {
+        try {
+            await this.transporter.verify();
+            logger.info('Email server connection verified');
+            return true;
+        } catch (error) {
+            logger.error(`Email connection failed: ${error.message}`);
+            return false;
+        }
     }
 
     async sendEmail(to, subject, html, attachments = []) {
         try {
             const mailOptions = {
-                from: `"Viralstan CMS" <${process.env.EMAIL_USER}>`,
+                from: `"Viralstan CRM" <${process.env.EMAIL_USER}>`,
                 to,
                 subject,
                 html,
                 attachments
             };
 
+            logger.info(`Sending email to ${to}...`);
             const info = await this.transporter.sendMail(mailOptions);
-            logger.info(`Email sent: ${info.messageId}`);
+            logger.info(`Email sent successfully: ${info.messageId}`);
             return info;
         } catch (error) {
-            logger.error(`Email sending failed: ${error.message}`);
-            throw new Error('Email could not be sent');
+            logger.error(`Email sending failed for ${to}: ${error.message}`);
+            console.error('Nodemailer Error:', error);
+            throw new Error(`Email could not be sent: ${error.message}`);
         }
     }
 
