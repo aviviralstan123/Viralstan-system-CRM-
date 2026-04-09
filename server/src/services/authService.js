@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const pool = require('../config/database');
 const { jwtSecret, jwtExpiresIn, frontendUrl } = require('../config/env');
 const emailService = require('../utils/emailService');
+const logger = require('../utils/logger');
+const AppError = require('../utils/AppError');
 
 const register = async (userData) => {
   const { name, email, password, role } = userData;
@@ -11,7 +13,7 @@ const register = async (userData) => {
   // Check if user already exists
   const [existingUser] = await pool.query('SELECT id FROM users WHERE email = ?', [email]);
   if (existingUser.length > 0) {
-    throw { statusCode: 400, message: 'User with this email already exists' };
+    throw new AppError('User with this email already exists', 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,13 +29,13 @@ const register = async (userData) => {
 const login = async ({ email, password }) => {
   const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
   if (users.length === 0) {
-    throw { statusCode: 401, message: 'Invalid credentials' };
+    throw new AppError('Invalid credentials', 401);
   }
 
   const user = users[0];
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw { statusCode: 401, message: 'Invalid credentials' };
+    throw new AppError('Invalid credentials', 401);
   }
 
   const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: jwtExpiresIn });
@@ -45,10 +47,14 @@ const login = async ({ email, password }) => {
 };
 
 const forgotPassword = async (email) => {
+  if (!email) {
+    throw new AppError('Please provide an email address', 400);
+  }
+
   const [users] = await pool.query('SELECT id, name, email FROM users WHERE email = ?', [email]);
   
   if (users.length === 0) {
-    throw { statusCode: 404, message: 'User not found with this email' };
+    throw new AppError('User not found with this email', 404);
   }
 
   const user = users[0];
@@ -64,22 +70,25 @@ const forgotPassword = async (email) => {
   
   // Send email in background to keep response fast
   emailService.sendPasswordResetEmail(user.email, user.name, resetLink)
-    .catch(async (error) => {
+    .catch((error) => {
       logger.error(`Background email failed for ${user.email}: ${error.message}`);
-      // Optional: Logic to handle persistent failure if needed
     });
 
   return { message: 'Password reset link sent to your email' };
 };
 
 const resetPassword = async (token, newPassword) => {
+  if (!token || !newPassword) {
+    throw new AppError('Please provide token and new password', 400);
+  }
+
   const [users] = await pool.query(
     'SELECT id FROM users WHERE reset_password_token = ? AND reset_password_expires > NOW()',
     [token]
   );
 
   if (users.length === 0) {
-    throw { statusCode: 400, message: 'Invalid or expired reset token' };
+    throw new AppError('Invalid or expired reset token', 400);
   }
 
   const user = users[0];
