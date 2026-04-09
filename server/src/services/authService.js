@@ -59,20 +59,24 @@ const forgotPassword = async (email) => {
 
   const user = users[0];
   const resetToken = crypto.randomBytes(32).toString('hex');
-  const tokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
+  const tokenExpiry = new Date(Date.now() + 3600000); // 1 hour
 
-  await pool.query(
-    'UPDATE users SET reset_password_token = ?, reset_password_expires = ? WHERE id = ?',
-    [resetToken, tokenExpiry, user.id]
-  );
+  try {
+    await pool.query(
+      'UPDATE users SET reset_password_token = ?, reset_password_expires = ? WHERE id = ?',
+      [resetToken, tokenExpiry, user.id]
+    );
+  } catch (dbError) {
+    logger.error(`Database error during forgotPassword: ${dbError.message}`);
+    throw new AppError('Error updating reset token. Please ensure DB columns exist.', 500);
+  }
 
   const resetLink = `${frontendUrl || 'https://viralstan-system-crm-test.vercel.app'}/reset-password?token=${resetToken}`;
   
-  // Send email in background to keep response fast
+  // SEND EMAIL (Background - will not wait for response)
   emailService.sendPasswordResetEmail(user.email, user.name, resetLink)
-    .catch((error) => {
-      logger.error(`Background email failed for ${user.email}: ${error.message}`);
-    });
+    .then(() => logger.info(`Reset email sent to ${user.email}`))
+    .catch((err) => logger.error(`Background reset email failed: ${err.message}`));
 
   return { message: 'Password reset link sent to your email' };
 };
