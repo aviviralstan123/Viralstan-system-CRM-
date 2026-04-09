@@ -19,4 +19,23 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+const forgotPassword = async (req, res, next) => {
+  try {
+    const result = await authService.forgotPassword(req.body.email);
+    responseHandler(res, 200, result.message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body;
+    const result = await authService.resetPassword(token, password);
+    responseHandler(res, 200, result.message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { register, login, forgotPassword, resetPassword };

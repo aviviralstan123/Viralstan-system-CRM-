@@ -60,6 +60,23 @@ class EmailService {
         const html = `<h1>Welcome to Viralstan, ${userName}!</h1><p>Your account has been created successfully.</p>`;
         return this.sendEmail(userEmail, 'Welcome to Viralstan CRM', html);
     }
+
+    async sendPasswordResetEmail(userEmail, userName, resetLink) {
+        const html = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e1e1e1; border-radius: 10px;">
+                <h2 style="color: #333; text-align: center;">Password Reset Request</h2>
+                <p>Hello ${userName},</p>
+                <p>You requested to reset your password for your Viralstan CRM account. Click the button below to set a new password:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${resetLink}" style="background-color: #4F46E5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
+                </div>
+                <p>If you didn't request this, you can safely ignore this email. This link will expire in 1 hour.</p>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                <p style="font-size: 12px; color: #888; text-align: center;">© 2026 Viralstan. All rights reserved.</p>
+            </div>
+        `;
+        return this.sendEmail(userEmail, 'Password Reset Request - Viralstan', html);
+    }
 }
 
 module.exports = new EmailService();
