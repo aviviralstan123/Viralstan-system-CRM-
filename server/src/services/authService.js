@@ -60,7 +60,7 @@ const forgotPassword = async (email) => {
     [resetToken, tokenExpiry, user.id]
   );
 
-  const resetLink = `${frontendUrl || 'https://viralstan-system-crm-test.vercel.app/login'}/reset-password?token=${resetToken}`;
+  const resetLink = `${frontendUrl || 'https://viralstan-system-crm-test.vercel.app'}/reset-password?token=${resetToken}`;
   
   try {
     await emailService.sendPasswordResetEmail(user.email, user.name, resetLink);
