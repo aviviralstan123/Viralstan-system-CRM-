@@ -6,6 +6,7 @@ const { roleMiddleware } = require('../middleware/roleMiddleware');
 const { validateMiddleware } = require('../middleware/validateMiddleware');
 const { blogSchema } = require('../validations/blogValidation');
 const { ROLES } = require('../utils/constants');
+const upload = require('../utils/imageUpload');
 
 // Public routes for blog website
 router.get('/', blogController.getAllBlogs);
@@ -14,8 +15,8 @@ router.get('/:slug', blogController.getBlogBySlug);
 
 // Protected routes for admin/editor
 router.use(authMiddleware);
-router.post('/', roleMiddleware(ROLES.ADMIN, ROLES.EDITOR), validateMiddleware(blogSchema), blogController.createBlog);
-router.put('/:id', roleMiddleware(ROLES.ADMIN, ROLES.EDITOR), validateMiddleware(blogSchema), blogController.updateBlog);
+router.post('/', roleMiddleware(ROLES.ADMIN, ROLES.EDITOR), upload.single('featured_image'), validateMiddleware(blogSchema), blogController.createBlog);
+router.put('/:id', roleMiddleware(ROLES.ADMIN, ROLES.EDITOR), upload.single('featured_image'), validateMiddleware(blogSchema), blogController.updateBlog);
 router.delete('/:id', roleMiddleware(ROLES.ADMIN), blogController.deleteBlog);
 
 module.exports = router;
