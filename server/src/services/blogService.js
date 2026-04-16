@@ -1,10 +1,12 @@
 const pool = require('../config/database');
 
+const baseBlogSelect = 'SELECT b.*, u.name as author_name FROM blogs b LEFT JOIN users u ON b.author_id = u.id';
+
 const getAllBlogs = async (status) => {
-  let query = 'SELECT b.*, u.name as author_name FROM blogs b LEFT JOIN users u ON b.author_id = u.id';
+  let query = baseBlogSelect;
   const params = [];
 
-  if (status) {
+  if (status && status !== 'all') {
     query += ' WHERE b.status = ?';
     params.push(status);
   }
@@ -14,20 +16,30 @@ const getAllBlogs = async (status) => {
   return rows;
 };
 
-const getBlogBySlug = async (slug) => {
-  const [rows] = await pool.query(
-    'SELECT b.*, u.name as author_name FROM blogs b LEFT JOIN users u ON b.author_id = u.id WHERE b.slug = ?',
-    [slug]
-  );
+const getBlogBySlug = async (slug, status) => {
+  let query = `${baseBlogSelect} WHERE b.slug = ?`;
+  const params = [slug];
+
+  if (status) {
+    query += ' AND b.status = ?';
+    params.push(status);
+  }
+
+  const [rows] = await pool.query(query, params);
   if (rows.length === 0) throw { statusCode: 404, message: 'Blog not found' };
   return rows[0];
 };
 
-const getBlogById = async (id) => {
-  const [rows] = await pool.query(
-    'SELECT b.*, u.name as author_name FROM blogs b LEFT JOIN users u ON b.author_id = u.id WHERE b.id = ?',
-    [id]
-  );
+const getBlogById = async (id, status) => {
+  let query = `${baseBlogSelect} WHERE b.id = ?`;
+  const params = [id];
+
+  if (status) {
+    query += ' AND b.status = ?';
+    params.push(status);
+  }
+
+  const [rows] = await pool.query(query, params);
   if (rows.length === 0) throw { statusCode: 404, message: 'Blog not found' };
   return rows[0];
 };

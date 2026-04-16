@@ -8,10 +8,11 @@ const { serviceSchema } = require('../validations/serviceValidation');
 const { ROLES } = require('../utils/constants');
 
 // Public route for website
-router.get('/', serviceController.getAllServices);
+router.get('/', serviceController.getPublicServices);
 
 // Protected routes
 router.use(authMiddleware);
+router.get('/admin/all', serviceController.getAllServices);
 router.get('/:id', serviceController.getServiceById);
 router.post('/', roleMiddleware(ROLES.ADMIN, ROLES.EDITOR), validateMiddleware(serviceSchema), serviceController.createService);
 router.put('/:id', roleMiddleware(ROLES.ADMIN, ROLES.EDITOR), validateMiddleware(serviceSchema), serviceController.updateService);

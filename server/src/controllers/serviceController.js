@@ -10,6 +10,15 @@ const getAllServices = async (req, res, next) => {
   }
 };
 
+const getPublicServices = async (req, res, next) => {
+  try {
+    const services = await serviceService.getAllServices({ activeOnly: true });
+    responseHandler(res, 200, 'Services retrieved successfully', services);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getServiceById = async (req, res, next) => {
   try {
     const service = await serviceService.getServiceById(req.params.id);
@@ -46,4 +55,4 @@ const deleteService = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllServices, getServiceById, createService, updateService, deleteService };
+module.exports = { getAllServices, getPublicServices, getServiceById, createService, updateService, deleteService };

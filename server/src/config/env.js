@@ -1,7 +1,29 @@
 require('dotenv').config();
 
-const requiredEnvs = ['DB_HOST', 'DB_USER', 'DB_NAME', 'JWT_SECRET', 'FRONTEND_URL'];
+const normalizeOrigin = (value) => {
+  try {
+    return new URL(value).origin;
+  } catch (error) {
+    return null;
+  }
+};
+
+const frontendUrls = [...new Set(
+  [process.env.FRONTEND_URL, process.env.FRONTEND_URLS]
+    .filter(Boolean)
+    .flatMap((value) => value.split(','))
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map(normalizeOrigin)
+    .filter(Boolean)
+)];
+
+const requiredEnvs = ['DB_HOST', 'DB_USER', 'DB_NAME', 'JWT_SECRET'];
 const missingEnvs = requiredEnvs.filter(env => !process.env[env]);
+
+if (frontendUrls.length === 0) {
+  missingEnvs.push('FRONTEND_URL or FRONTEND_URLS');
+}
 
 if (missingEnvs.length > 0) {
   console.error(`❌ FATAL ERROR: Missing Required Environment Variables: ${missingEnvs.join(', ')}`);
@@ -20,5 +42,6 @@ module.exports = {
     database: process.env.DB_NAME,
     port: process.env.DB_PORT || 3306
   },
-  frontendUrl: process.env.FRONTEND_URL
+  frontendUrl: frontendUrls[0],
+  frontendUrls
 };

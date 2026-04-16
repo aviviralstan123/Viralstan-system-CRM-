@@ -1,13 +1,22 @@
 // FILE: server/src/config/cors.js
 
-const { frontendUrl } = require('./env');
+const { frontendUrls, nodeEnv } = require('./env');
 
-// Extract only the origin (protocol + host) from FRONTEND_URL.
-// This prevents CORS failures if the env var accidentally includes a path (e.g. /login).
-const allowedOrigin = frontendUrl ? new URL(frontendUrl).origin : '';
+const allowedOrigins = new Set(frontendUrls);
+const isLocalOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
 
 const corsOptions = {
-    origin: allowedOrigin,
+    origin(origin, callback) {
+        if (!origin) {
+            return callback(null, true);
+        }
+
+        if (allowedOrigins.has(origin) || (nodeEnv !== 'production' && isLocalOrigin(origin))) {
+            return callback(null, true);
+        }
+
+        return callback(new Error('Not allowed by CORS'));
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

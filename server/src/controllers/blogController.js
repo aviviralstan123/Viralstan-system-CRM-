@@ -11,9 +11,27 @@ const getAllBlogs = async (req, res, next) => {
   }
 };
 
+const getPublicBlogs = async (req, res, next) => {
+  try {
+    const blogs = await blogService.getAllBlogs('published');
+    responseHandler(res, 200, 'Blogs retrieved successfully', blogs);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getBlogBySlug = async (req, res, next) => {
   try {
     const blog = await blogService.getBlogBySlug(req.params.slug);
+    responseHandler(res, 200, 'Blog retrieved successfully', blog);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getPublicBlogBySlug = async (req, res, next) => {
+  try {
+    const blog = await blogService.getBlogBySlug(req.params.slug, 'published');
     responseHandler(res, 200, 'Blog retrieved successfully', blog);
   } catch (error) {
     next(error);
@@ -76,4 +94,23 @@ const getBlogById = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllBlogs, getBlogBySlug, getBlogById, createBlog, updateBlog, deleteBlog };
+const getPublicBlogById = async (req, res, next) => {
+  try {
+    const blog = await blogService.getBlogById(req.params.id, 'published');
+    responseHandler(res, 200, 'Blog retrieved successfully', blog);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getAllBlogs,
+  getPublicBlogs,
+  getBlogBySlug,
+  getPublicBlogBySlug,
+  getBlogById,
+  getPublicBlogById,
+  createBlog,
+  updateBlog,
+  deleteBlog
+};

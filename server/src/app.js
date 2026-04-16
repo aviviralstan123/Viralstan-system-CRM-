@@ -15,6 +15,7 @@ const invoiceRoutes = require('./routes/invoiceRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const industryRoutes = require('./routes/industryRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use('/api/invoices', invoiceRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/industries', industryRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

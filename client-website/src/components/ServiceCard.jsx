@@ -1,14 +1,14 @@
-import React from 'react';
+﻿import React from 'react'
 
 const ServiceCard = ({ service }) => {
   return (
     <div className="card">
       <div className="card-body">
-        <h3 className="brand-indigo">{service.title}</h3>
-        <p>{service.description}</p>
+        <h3>{service.title || service.name || 'Untitled Service'}</h3>
+        <p>{service.description || 'No description available.'}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ServiceCard;
+export default ServiceCard

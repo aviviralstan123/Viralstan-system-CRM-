@@ -1,7 +1,16 @@
 const pool = require('../config/database');
 
-const getAllServices = async () => {
-  const [rows] = await pool.query('SELECT * FROM services ORDER BY title ASC');
+const getAllServices = async ({ activeOnly = false } = {}) => {
+  let query = 'SELECT * FROM services';
+  const params = [];
+
+  if (activeOnly) {
+    query += ' WHERE is_active = ?';
+    params.push(1);
+  }
+
+  query += ' ORDER BY title ASC';
+  const [rows] = await pool.query(query, params);
   return rows;
 };
 
