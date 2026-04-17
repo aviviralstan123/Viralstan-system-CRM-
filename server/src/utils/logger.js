@@ -12,10 +12,12 @@ const logger = winston.createLogger({
   ]
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple()
-  }));
-}
+// Always log to console so Render/cloud platforms can capture logs
+logger.add(new winston.transports.Console({
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.simple()
+  )
+}));
 
 module.exports = logger;
