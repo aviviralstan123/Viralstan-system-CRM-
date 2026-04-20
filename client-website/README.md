@@ -67,3 +67,6 @@ location / {
 - `npm run build` - build production bundle
 - `npm run preview` - preview production build
 - `npm run lint` - run lint checks
+
+
+..
